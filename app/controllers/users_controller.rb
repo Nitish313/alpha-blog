@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :show, :update]
+  before_action :set_user, only: [:edit, :show, :update, :destroy]
+  before_action :require_user, only: [:edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
+  
   def index
     @users = User.paginate(page: params[:page], per_page: 5)
   end
@@ -35,6 +38,13 @@ class UsersController < ApplicationController
     @articles = @user.articles.paginate(page: params[:page], per_page: 5)
   end
 
+  def destroy
+    @user.destroy
+    session[:user_id] = nil
+    redirect_to root_path
+    flash[:danger] = "Account deleted permanently."
+  end
+
   private
     def user_params
       params.require(:user).permit(:username, :email, :password)
@@ -42,5 +52,12 @@ class UsersController < ApplicationController
    
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def correct_user
+      unless current_user == @user
+        flash[:warning] = "You can only edit your own profile"
+        redirect_to current_user
+      end
     end
 end

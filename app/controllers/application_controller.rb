@@ -9,4 +9,11 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
+  def require_user
+    unless logged_in?
+      flash[:warning] = "Please login first"
+      redirect_to login_path
+    end
+  end
+
 end
