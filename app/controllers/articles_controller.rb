@@ -53,8 +53,8 @@ class ArticlesController < ApplicationController
     end
 
     def correct_user
-      unless current_user == @article.user
-        flash[:warning] = "You can only edit or delete your own article"
+      unless current_user == @article.user || current_user.admin?
+        flash[:warning] = "You can only edit or delete your own article unless you are an admin"
         redirect_to @article
       end
     end

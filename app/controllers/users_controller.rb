@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    session[:user_id] = nil
+    session[:user_id] = nil if @user == current_user
     redirect_to root_path
     flash[:danger] = "Account deleted permanently."
   end
@@ -55,8 +55,8 @@ class UsersController < ApplicationController
     end
 
     def correct_user
-      unless current_user == @user
-        flash[:warning] = "You can only edit your own profile"
+      unless current_user == @user || current_user.admin?
+        flash[:warning] = "You can only edit or delete your own profile"
         redirect_to current_user
       end
     end
