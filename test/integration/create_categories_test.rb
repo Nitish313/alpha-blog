@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class CreateCategoriesTest < ActionDispatch::IntegrationTest
+  def setup
+    @admin_user = User.create(username: "admin",
+                              email: "admin@example.com",
+                              password: "password",
+                              admin: true)
+    sign_in_as(@admin_user)                          
+  end
+  
   test "create new category and redirect appropriately" do
     get '/categories/new'
     assert_response :success
@@ -15,6 +23,7 @@ class CreateCategoriesTest < ActionDispatch::IntegrationTest
   end
 
   test 'get new form and reject invalid submission' do
+    sign_in_as(@admin_user)
     get '/categories/new'
     assert_response :success
     assert_no_difference "Category.count" do
