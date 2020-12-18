@@ -9,6 +9,11 @@
       <%= f.label :description, class: "col-3 text-light" %><br/>
       <%= f.text_area :description, class: "form-control col-7 shadow mb-3 bg-white rounded", rows: 10, placeholder: "Description of article" %>
     </div>
+    <div class="form-group row p-3">
+      <%= f.label :category, class: "col-3 text-light" %><br/>
+      <%= f.collection_select(:category_ids, Category.all, :id, :name,
+            { prompt: "Make your selection from the list below(can be empty)" }, { multiple: true, size: 3, class: "form-control col-7 shadow mb-3 bg-white rounded" }) %>
+    </div>
     <div class="row">
       <div class="col-4 offset-4">
         <%= f.submit class: "btn btn-lg btn-success w-100 mb-2" %>
