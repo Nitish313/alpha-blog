@@ -14,5 +14,11 @@
     </div>
   <% end %>
   
-  <p class="text-center"><%= link_to "Cancel and return to articles listing", articles_path, class: "text-info" %></p>
+  <p class="text-center">
+    <% if @category.new_record? %>
+      <%= link_to "Return to categories listing", categories_path, class: "text-info" %>
+    <% else %>
+      <%= link_to "Return to the category", @category %>
+    <% end %>
+  </p>
 </div>  
