@@ -6,6 +6,7 @@
         <div class="card-header font-italic">
           by <%= @article.user.username if @article.user.present? %>
           <%= link_to gravatar_for(@article.user), @article.user %>
+          <div class="mt-2"><%= render @article.categories %></div>
         </div>
         <div class="card-body">
           <div class="card-text text-left"><%= 
